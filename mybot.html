@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kit | The Den Tutoring Lab</title>
+  <meta name="description" content="Free one-on-one math and science tutoring for enrolled college students. Ask Kit, the Den's virtual assistant, about hours, subjects, and policies.">
+  <link rel="icon" href="BotAvatar_Fox_v2.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #1e2a47;
+      --navy-deep: #141d33;
+      --fox: #e8743b;
+      --fox-dark: #c95d27;
+      --gold: #f2c14e;
+      --cream: #f6f1ea;
+      --paper: #ffffff;
+      --ink: #1b2233;
+      --muted: #5b6478;
+      --line: #e3ddd3;
+      --radius: 14px;
+      --max: 1120px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--cream);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3 { font-family: "Space Grotesk", "Inter", sans-serif; line-height: 1.15; margin: 0 0 .5em; }
+    h2 { font-size: clamp(1.7rem, 3vw, 2.3rem); letter-spacing: -.01em; }
+    a { color: inherit; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+    .eyebrow {
+      display: inline-block; font-size: .78rem; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--fox-dark); margin-bottom: .75rem;
+    }
+    section { padding: 88px 0; }
+
+    /* Nav */
+    header.nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(20, 29, 51, .92); backdrop-filter: blur(10px);
+      color: #fff;
+    }
+    .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: "Space Grotesk"; font-weight: 700; font-size: 1.15rem; }
+    .brand img { width: 34px; height: 34px; }
+    .brand span { color: var(--gold); }
+    .nav ul { list-style: none; display: flex; gap: 28px; margin: 0; padding: 0; font-size: .93rem; }
+    .nav ul a { text-decoration: none; opacity: .8; }
+    .nav ul a:hover { opacity: 1; }
+    @media (max-width: 760px) { .nav ul { display: none; } }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; border: 0; cursor: pointer;
+      font: 600 .95rem "Inter", sans-serif; padding: 13px 22px; border-radius: 999px;
+      text-decoration: none; transition: transform .15s, background .15s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--fox); color: #fff; }
+    .btn-primary:hover { background: var(--fox-dark); }
+    .btn-ghost { background: transparent; color: #fff; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.35); }
+    .btn-ghost:hover { box-shadow: inset 0 0 0 1.5px #fff; }
+
+    /* Hero */
+    .hero {
+      background: radial-gradient(1200px 500px at 85% 10%, #2c3c63 0%, transparent 60%), var(--navy);
+      color: #fff; padding: 96px 0 104px; overflow: hidden;
+    }
+    .hero .wrap { display: grid; grid-template-columns: 1.25fr 1fr; gap: 48px; align-items: center; }
+    .hero h1 { font-size: clamp(2.3rem, 5vw, 3.6rem); letter-spacing: -.02em; }
+    .hero h1 em { font-style: normal; color: var(--gold); }
+    .hero p.lead { font-size: 1.12rem; color: #c9d1e3; max-width: 34em; margin: 0 0 2rem; }
+    .hero .eyebrow { color: var(--gold); }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+    .hero-stats { display: flex; gap: 36px; margin-top: 44px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,.12); }
+    .hero-stats b { display: block; font: 700 1.6rem "Space Grotesk"; color: #fff; }
+    .hero-stats small { color: #9aa6c2; font-size: .85rem; }
+
+    .kit-card {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 22px; padding: 28px; position: relative;
+    }
+    .kit-head { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+    .kit-head img { width: 64px; height: 64px; }
+    .kit-head b { font: 600 1.15rem "Space Grotesk"; display: block; }
+    .kit-head small { color: #9aa6c2; }
+    .status { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #4ade80; margin-right: 6px; }
+    .bubble { padding: 12px 16px; border-radius: 16px; font-size: .94rem; margin-bottom: 10px; max-width: 88%; }
+    .bubble.bot { background: rgba(255,255,255,.09); border-bottom-left-radius: 4px; }
+    .bubble.user { background: var(--fox); margin-left: auto; border-bottom-right-radius: 4px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .chip {
+      font: 500 .82rem "Inter"; padding: 7px 12px; border-radius: 999px; cursor: pointer;
+      background: transparent; color: #dfe5f2; border: 1px solid rgba(255,255,255,.2);
+    }
+    .chip:hover { border-color: var(--gold); color: var(--gold); }
+    @media (max-width: 880px) { .hero .wrap { grid-template-columns: 1fr; } }
+
+    /* Modes */
+    .modes { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
+    .mode {
+      background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 32px; position: relative; overflow: hidden;
+    }
+    .mode::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: var(--fox); }
+    .mode.online::before { background: var(--navy); }
+    .mode .tag { font-size: .78rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .mode h3 { font-size: 1.5rem; margin-top: .4rem; }
+    .mode .when { font: 600 1.05rem "Space Grotesk"; color: var(--fox-dark); margin-bottom: 1rem; }
+    .mode.online .when { color: var(--navy); }
+    .mode ul { padding-left: 1.1em; margin: 0; color: var(--muted); }
+    .mode li { margin: .35em 0; }
+    @media (max-width: 760px) { .modes { grid-template-columns: 1fr; } }
+
+    /* Subjects */
+    .subjects { background: var(--paper); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .sub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 18px; margin-top: 36px; }
+    .sub {
+      border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; background: var(--cream);
+    }
+    .sub .ico { font: 700 1.3rem "Space Grotesk"; color: var(--fox); margin-bottom: 8px; }
+    .sub h3 { font-size: 1.05rem; }
+    .sub p { margin: 0; font-size: .9rem; color: var(--muted); }
+
+    /* Schedule */
+    .sched-controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 28px 0 22px; }
+    .sched-controls label { font-weight: 600; font-size: .92rem; }
+    select {
+      font: 500 .95rem "Inter"; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line);
+      background: var(--paper); color: var(--ink); min-width: 240px;
+    }
+    .legend { display: flex; gap: 18px; font-size: .85rem; color: var(--muted); margin-left: auto; }
+    .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
+    .days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+    .day { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 14px; min-height: 150px; }
+    .day h4 { margin: 0 0 2px; font: 600 .95rem "Space Grotesk"; }
+    .day .mode-label { font-size: .72rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+    .day.inperson .mode-label { color: var(--fox-dark); }
+    .day.online .mode-label { color: var(--navy); }
+    .day.inperson { border-top: 3px solid var(--fox); }
+    .day.online { border-top: 3px solid var(--navy); }
+    .slot { margin-top: 10px; font-size: .86rem; }
+    .slot b { display: block; font-weight: 600; }
+    .slot span { color: var(--muted); font-size: .8rem; }
+    .none { margin-top: 10px; font-size: .84rem; color: #a3a9b6; font-style: italic; }
+    @media (max-width: 960px) { .days { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .days { grid-template-columns: 1fr; } .legend { margin-left: 0; } }
+
+    /* Policies */
+    .policies { background: var(--navy-deep); color: #fff; }
+    .policies .eyebrow { color: var(--gold); }
+    .pol-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 36px; }
+    .pol { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: var(--radius); padding: 26px; }
+    .pol .num { font: 700 2rem "Space Grotesk"; color: var(--gold); }
+    .pol h3 { font-size: 1.05rem; margin-top: .4rem; }
+    .pol p { margin: 0; color: #b8c2d8; font-size: .92rem; }
+    .scope { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+    .scope div { border-radius: var(--radius); padding: 26px; }
+    .scope .yes { background: rgba(74, 222, 128, .08); border: 1px solid rgba(74, 222, 128, .25); }
+    .scope .no { background: rgba(248, 113, 113, .08); border: 1px solid rgba(248, 113, 113, .25); }
+    .scope ul { margin: 0; padding-left: 1.1em; color: #d4dbea; font-size: .93rem; }
+    @media (max-width: 760px) { .scope { grid-template-columns: 1fr; } }
+
+    /* Visit */
+    .visit .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .info-list { list-style: none; padding: 0; margin: 0; }
+    .info-list li { padding: 16px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 110px 1fr; gap: 12px; }
+    .info-list li b { font-size: .82rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding-top: 2px; }
+    .ask-panel {
+      background: var(--paper); border: 1px solid var(--line); border-radius: 22px; padding: 36px; text-align: center;
+    }
+    .ask-panel img { width: 96px; height: 96px; margin-bottom: 12px; }
+    .ask-panel p { color: var(--muted); }
+    .note { font-size: .82rem; color: var(--muted); margin-top: 16px; }
+    @media (max-width: 760px) { .visit .wrap { grid-template-columns: 1fr; } }
+
+    footer { background: var(--navy-deep); color: #8e99b3; font-size: .85rem; padding: 32px 0; }
+    footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="#top"><img src="BotAvatar_Fox_v2.png" alt="">The <span>Den</span></a>
+      <ul>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#subjects">Subjects</a></li>
+        <li><a href="#schedule">Schedule</a></li>
+        <li><a href="#policies">Policies</a></li>
+        <li><a href="#visit">Visit</a></li>
+      </ul>
+      <button class="btn btn-primary" data-open-kit style="padding:9px 18px">Ask Kit</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="wrap">
+        <div>
+          <div class="eyebrow">The Den · Math &amp; Science Tutoring Lab</div>
+          <h1>Meet <em>Kit</em>, your Den tutoring assistant.</h1>
+          <p class="lead">Get unstuck, one problem at a time. The Den offers free one-on-one tutoring in math and science for currently enrolled students. Walk in Monday through Thursday, or book an online session Friday through Sunday.</p>
+          <div class="cta-row">
+            <button class="btn btn-primary" data-open-kit>Chat with Kit →</button>
+            <a class="btn btn-ghost" href="thedenlab.html" target="_blank" rel="noopener">Book an online session</a>
+          </div>
+          <div class="hero-stats">
+            <div><b>Free</b><small>for enrolled students</small></div>
+            <div><b>25+</b><small>subjects covered</small></div>
+            <div><b>7 days</b><small>9 a.m. – 7 p.m.</small></div>
+          </div>
+        </div>
+
+        <aside class="kit-card" aria-label="Meet Kit">
+          <div class="kit-head">
+            <img src="BotAvatar_Fox_v2.png" alt="Kit the fox">
+            <div><b>Kit</b><small><span class="status"></span>The Den's virtual assistant</small></div>
+          </div>
+          <div class="bubble bot">Hi, I'm Kit 🦊 I can answer questions about the Den's hours, subjects, policies, and who's tutoring when.</div>
+          <div class="bubble user">Is anyone covering Calc II on Saturday?</div>
+          <div class="bubble bot">Yes, Chris tutors Calculus II online on Saturday from 9 a.m. to 1 p.m. Book at thedenlab.example.</div>
+          <div class="chips">
+            <button class="chip" data-open-kit>When is Organic Chem?</button>
+            <button class="chip" data-open-kit>Do I need an appointment?</button>
+            <button class="chip" data-open-kit>No-show policy</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how">
+      <div class="wrap">
+        <div class="eyebrow">How it works</div>
+        <h2>Two ways to get help</h2>
+        <p style="color:var(--muted);max-width:40em">To use the Den, register for an account at <a href="thedenlab.html" target="_blank" rel="noopener">thedenlab.example</a>. You'll need your student ID number.</p>
+        <div class="modes">
+          <article class="mode">
+            <div class="tag">In person · Walk-in</div>
+            <h3>Drop by the lab</h3>
+            <div class="when">Monday – Thursday, 9 a.m. – 7 p.m.</div>
+            <ul>
+              <li>No appointment needed. Just show up.</li>
+              <li>Discovery Hall, Room 214</li>
+              <li>Work with any tutor who covers your subject</li>
+              <li>Appointments can't be booked for in-person help</li>
+            </ul>
+          </article>
+          <article class="mode online">
+            <div class="tag">Online · Appointment required</div>
+            <h3>Meet a tutor live, online</h3>
+            <div class="when">Friday – Sunday, 9 a.m. – 7 p.m.</div>
+            <ul>
+              <li>Live one-on-one sessions, 30 or 45 minutes long</li>
+              <li>Book up to two weeks ahead. Same-day booking is fine.</li>
+              <li>Up to two active appointments at a time</li>
+              <li>Book and join at thedenlab.example</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Subjects -->
+    <section id="subjects" class="subjects">
+      <div class="wrap">
+        <div class="eyebrow">Subjects</div>
+        <h2>What we cover</h2>
+        <div class="sub-grid">
+          <div class="sub"><div class="ico">∫</div><h3>Mathematics</h3><p>Algebra, Trigonometry, Precalculus, Calculus I–III, Differential Equations, Statistics, MGF 1130/1131</p></div>
+          <div class="sub"><div class="ico">F=ma</div><h3>Physics</h3><p>Fundamental Physics, Physics with Calculus I, Physics with Calculus II</p></div>
+          <div class="sub"><div class="ico">H₂O</div><h3>Chemistry</h3><p>Intro to Chemistry, General Chemistry, Organic Chemistry</p></div>
+          <div class="sub"><div class="ico">DNA</div><h3>Biology</h3><p>Biology, Microbiology, Anatomy &amp; Physiology</p></div>
+          <div class="sub"><div class="ico">☄</div><h3>Earth &amp; Space</h3><p>Astronomy, Earth Science, Geology, Meteorology, Environmental Science</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Schedule -->
+    <section id="schedule">
+      <div class="wrap">
+        <div class="eyebrow">Tutor schedule</div>
+        <h2>Find a tutor for your course</h2>
+        <div class="sched-controls">
+          <label for="subject">Subject</label>
+          <select id="subject"></select>
+          <div class="legend">
+            <span><i style="background:var(--fox)"></i>In person (walk-in)</span>
+            <span><i style="background:var(--navy)"></i>Online (appointment)</span>
+          </div>
+        </div>
+        <div class="days" id="days"></div>
+      </div>
+    </section>
+
+    <!-- Policies -->
+    <section id="policies" class="policies">
+      <div class="wrap">
+        <div class="eyebrow">Policies</div>
+        <h2>Before you book</h2>
+        <div class="pol-grid">
+          <div class="pol"><div class="num">2</div><h3>Active appointments max</h3><p>You can have up to two online appointments booked at once, scheduled up to two weeks in advance.</p></div>
+          <div class="pol"><div class="num">15 min</div><h3>Cancel or reschedule</h3><p>Make changes at least 15 minutes before the start time. Canceling on time doesn't count as a no-show.</p></div>
+          <div class="pol"><div class="num">15 min</div><h3>Join window</h3><p>If you don't join within the first 15 minutes, the session is canceled and counted as a no-show.</p></div>
+          <div class="pol"><div class="num">5th</div><h3>No-show locks your account</h3><p>More than four no-shows locks your account. Email or call the lab to unlock it.</p></div>
+        </div>
+        <div class="scope">
+          <div class="yes">
+            <h3>Tutors can help with</h3>
+            <ul>
+              <li>Understanding course concepts</li>
+              <li>Practice problems and ungraded homework</li>
+              <li>Studying for exams</li>
+              <li>Pre-lab and post-lab work for science lab courses</li>
+            </ul>
+          </div>
+          <div class="no">
+            <h3>Tutors can't help with</h3>
+            <ul>
+              <li>Take-home exams</li>
+              <li>Any graded work</li>
+              <li>The actual lab experiments</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visit -->
+    <section id="visit" class="visit">
+      <div class="wrap">
+        <div>
+          <div class="eyebrow">Visit &amp; contact</div>
+          <h2>Find the Den</h2>
+          <ul class="info-list">
+            <li><b>Location</b><span>Discovery Hall, Room 214<br>4821 Imaginary Oak Boulevard, Faketown, FL 55555</span></li>
+            <li><b>Online</b><span><a href="thedenlab.html" target="_blank" rel="noopener">thedenlab.example</a></span></li>
+            <li><b>Email</b><span><a href="mailto:help@thedenlab.example">help@thedenlab.example</a></span></li>
+            <li><b>Phone</b><span><a href="tel:1112223333">111-222-3333</a></span></li>
+            <li><b>Hours</b><span>Mon–Thu: 9 a.m.–7 p.m. in person<br>Fri–Sun: 9 a.m.–7 p.m. online<br>Closed on national holidays</span></li>
+          </ul>
+        </div>
+        <div class="ask-panel">
+          <img src="BotAvatar_Fox_v2.png" alt="Kit the fox">
+          <h3>Have a question? Ask Kit.</h3>
+          <p>Kit can tell you who's tutoring your subject and when, explain booking and no-show rules, and point you in the right direction.</p>
+          <button class="btn btn-primary" data-open-kit>Start a chat</button>
+          <p class="note">Kit can't book or cancel appointments. Do that at thedenlab.example.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© The Den: Math &amp; Science Tutoring Lab</span>
+      <span>The Den, its address, contact details, and tutor names are fictional and were created for a course project.</span>
+    </div>
+  </footer>
+
+  <script>
+    // Tutor availability (from Availability_v2_updated.xlsx). Mon–Thu in person, Fri–Sun online.
+    const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    const TUTORS = [
+      { name: "Garry",  subjects: ["Algebra","Trigonometry","Precalculus","Calculus I","Calculus II","Calculus III","Statistics","Differential Equations","MGF 1130/1131"], hours: ["9 a.m.–7 p.m.",null,"11 a.m.–7 p.m.",null,"12–3 p.m.",null,null] },
+      { name: "Abby",   subjects: ["Algebra","Trigonometry","Precalculus","Calculus I","Statistics","Intro to Chemistry","General Chemistry","Biology"], hours: [null,null,null,null,"9 a.m.–12 p.m.","12–5 p.m.",null] },
+      { name: "John",   subjects: ["Algebra","Trigonometry","Precalculus","Calculus I","Calculus II","Calculus III","Fundamental Physics","Physics with Calculus I"], hours: [null,"9 a.m.–7 p.m.","9 a.m.–5 p.m.","9 a.m.–5 p.m.",null,null,null] },
+      { name: "Katie",  subjects: ["Algebra","Trigonometry","Precalculus","Calculus I","Calculus II","Calculus III"], hours: [null,"11 a.m.–3 p.m.",null,"12–7 p.m.",null,null,null] },
+      { name: "Jake",   subjects: ["Algebra","Trigonometry","Precalculus","Statistics"], hours: ["9 a.m.–2 p.m.",null,"2–7 p.m.",null,null,null,null] },
+      { name: "Steve",  subjects: ["Algebra","Trigonometry","Precalculus","Calculus I","Calculus II","Calculus III","Statistics","MGF 1130/1131"], hours: [null,null,null,null,null,null,"12–5 p.m."] },
+      { name: "Cory",   subjects: ["Algebra","Trigonometry","Precalculus","Calculus I","Calculus II","Statistics","MGF 1130/1131","Fundamental Physics","Physics with Calculus I"], hours: [null,null,null,null,null,null,"1–7 p.m."] },
+      { name: "Henry",  subjects: ["Algebra","Trigonometry","Precalculus","Calculus I","Calculus II","Calculus III","Statistics","Differential Equations","MGF 1130/1131","Fundamental Physics","Physics with Calculus I","Physics with Calculus II"], hours: ["12–5 p.m.",null,null,null,"3–7 p.m.",null,null] },
+      { name: "Jeremy", subjects: ["Algebra","Trigonometry","Precalculus","Calculus I","Calculus II","Fundamental Physics","Physics with Calculus I"], hours: [null,"9 a.m.–1 p.m.",null,"10 a.m.–1 p.m.",null,null,null] },
+      { name: "Chris",  subjects: ["Algebra","Trigonometry","Precalculus","Calculus I","Calculus II","MGF 1130/1131"], hours: [null,null,null,null,null,"9 a.m.–1 p.m.","9 a.m.–12 p.m."] },
+      { name: "Gina",   subjects: ["Statistics","Intro to Chemistry","General Chemistry","Organic Chemistry","Biology","Microbiology","Anatomy & Physiology"], hours: ["1–6 p.m.",null,null,"9–11 a.m.","2–6 p.m.","10 a.m.–2 p.m.",null] },
+      { name: "Eric",   subjects: ["Astronomy","Earth Science","Geology","Meteorology","Environmental Science"], hours: ["12–4 p.m.",null,null,null,null,"3–7 p.m.",null] },
+      { name: "Brian",  subjects: ["Algebra","Intro to Chemistry","General Chemistry","Organic Chemistry"], hours: [null,"1–7 p.m.","2–7 p.m.","1–5 p.m.",null,null,null] }
+    ];
+    const SUBJECT_GROUPS = {
+      "Mathematics": ["Algebra","Trigonometry","Precalculus","Calculus I","Calculus II","Calculus III","Differential Equations","Statistics","MGF 1130/1131"],
+      "Physics": ["Fundamental Physics","Physics with Calculus I","Physics with Calculus II"],
+      "Chemistry": ["Intro to Chemistry","General Chemistry","Organic Chemistry"],
+      "Biology": ["Biology","Microbiology","Anatomy & Physiology"],
+      "Earth & Space": ["Astronomy","Earth Science","Geology","Meteorology","Environmental Science"]
+    };
+
+    const select = document.getElementById("subject");
+    const daysEl = document.getElementById("days");
+
+    for (const [group, list] of Object.entries(SUBJECT_GROUPS)) {
+      const og = document.createElement("optgroup");
+      og.label = group;
+      list.forEach(s => og.append(new Option(s, s)));
+      select.append(og);
+    }
+
+    function render(subject) {
+      daysEl.innerHTML = "";
+      DAYS.forEach((day, i) => {
+        const online = i >= 4;
+        const card = document.createElement("div");
+        card.className = "day " + (online ? "online" : "inperson");
+        card.innerHTML = `<h4>${day}</h4><div class="mode-label">${online ? "Online" : "Walk-in"}</div>`;
+        const tutors = TUTORS.filter(t => t.subjects.includes(subject) && t.hours[i]);
+        if (tutors.length) {
+          tutors.forEach(t => {
+            const s = document.createElement("div");
+            s.className = "slot";
+            s.innerHTML = `<b>${t.name}</b><span>${t.hours[i]}</span>`;
+            card.append(s);
+          });
+        } else {
+          card.insertAdjacentHTML("beforeend", `<div class="none">No tutor</div>`);
+        }
+        daysEl.append(card);
+      });
+    }
+    select.addEventListener("change", e => render(e.target.value));
+    render(select.value);
+
+    // "Ask Kit" buttons open the Botpress webchat once it has loaded.
+    document.querySelectorAll("[data-open-kit]").forEach(btn =>
+      btn.addEventListener("click", () => {
+        if (window.botpress && typeof window.botpress.open === "function") {
+          window.botpress.open();
+        } else {
+          alert("Kit is still loading. Please try again in a moment.");
+        }
+      })
+    );
+  </script>
+  
+  
+  <script src="https://cdn.botpress.cloud/webchat/v3.7/inject.js"></script>
+  <script src="https://files.bpcontent.cloud/2026/10/15/17/20261015170019-BK6NSC07.js" defer></script>
+    
+</body>
+</html>

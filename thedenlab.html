@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test Page | The Den</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="BotAvatar_Fox_v2.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #1e2a47;
+      --navy-deep: #141d33;
+      --fox: #e8743b;
+      --fox-dark: #c95d27;
+      --gold: #f2c14e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px 16px;
+      font-family: "Inter", system-ui, sans-serif; line-height: 1.6; color: #fff;
+      background: radial-gradient(900px 450px at 80% 0%, #2c3c63 0%, transparent 60%), var(--navy-deep);
+    }
+    .card {
+      max-width: 560px; width: 100%; text-align: center; padding: 44px 32px;
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); border-radius: 22px;
+    }
+    img { width: 96px; height: 96px; margin-bottom: 16px; }
+    .badge {
+      display: inline-block; font-size: .75rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--navy-deep); background: var(--gold); padding: 5px 12px; border-radius: 999px; margin-bottom: 18px;
+    }
+    h1 { font-family: "Space Grotesk", sans-serif; font-size: clamp(1.6rem, 5vw, 2.1rem); line-height: 1.2; margin: 0 0 .6em; }
+    p { color: #c9d1e3; margin: 0 0 1em; }
+    .btn {
+      display: inline-block; margin-top: 12px; padding: 13px 24px; border-radius: 999px; text-decoration: none;
+      font-weight: 600; background: var(--fox); color: #fff;
+    }
+    .btn:hover { background: var(--fox-dark); }
+    small { display: block; margin-top: 28px; color: #8e99b3; font-size: .82rem; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <img src="BotAvatar_Fox_v2.png" alt="Kit the fox">
+    <div class="badge">Test page · Not a real site</div>
+    <h1>thedenlab.example is a demo booking site</h1>
+    <p>This page is a placeholder for the Den's online booking site. It was made for a college course project to test Kit, the Den's virtual assistant.</p>
+    <p>You can't register, book, or cancel appointments here. The Den, its tutors, address, email, and phone number are all fictional.</p>
+    <a class="btn" href="mybot.html">← Back to the Den and Kit</a>
+    <small>ISM 6225 · Assignment 2 · For testing purposes only</small>
+  </main>
+</body>
+</html>
